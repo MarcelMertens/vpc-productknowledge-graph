@@ -1,63 +1,193 @@
-- product: VPC Account
-  description: "Basisaccount für Infrastrukturservices innerhalb der Virtual Private Cloud (VPC)"
-  dependencies: []
+products:
+  - product: Virtual Machine Service
+    short: "Compute-Ressourcen als virtuelle Maschine"
+    description: "Bereitstellung von virtuellen Maschinen inkl. CPU, RAM, OS-Images und Monitoring."
+    features:
+      - "Windows & Linux Images"
+      - "Flexible VM-Größen"
+      - "ISO-27001-konform"
+      - "Monitoring inklusive"
+    limitations:
+      - "Kein GPU-Support (separater Service)"
+      - "Nur EU-Region verfügbar"
+    pricing:
+      model: "pay-per-use"
+      base: 15
+      unit: "€/VM/Monat"
+    options:
+      region: ["OWL"]
+      zone: ["zone-a", "zone-b", "zone-c"]
+      ha_level: ["standard", "high"]
+    dependencies:
+      - type: required
+        product: VPC Account
+      - type: required
+        product: Avvia Cloud Foundation
+    recommendations:
+      - condition: "internet-facing vm"
+        suggest: "Firewall Service (Gateway)"
+        reason: "Schutz vor externen Angriffen"
+    synonyms:
+      - "vm"
+      - "server"
+      - "compute"
+    wiki:
+      - "https://wiki.internal.cloud/vm"
+    lifecycle: "stable"
+    support: "24/7 Enterprise SLA"
 
-- product: Avvia Cloud Foundation
-  description: "Managed Service Produkt für VPC"
-  dependencies:
-    - type: required
-      product: VPC Account
+  - product: Managed Kubernetes Cluster
+    short: "Fully managed Kubernetes Control Plane"
+    description: "Bereitstellung und Betrieb eines hochverfügbaren Kubernetes Clusters."
+    features:
+      - "HA Control Plane"
+      - "Ingress Controller optional"
+      - "Container Registry optional"
+    limitations:
+      - "Keine GPU-Worker (separater Service)"
+    pricing:
+      model: "flat"
+      base: 99
+      unit: "€/Cluster/Monat"
+    options:
+      version: ["1.27", "1.28", "1.29"]
+      region: ["eu-central", "eu-west"]
+    dependencies:
+      - type: required
+        product: VPC Account
+      - type: required
+        product: Avvia Cloud Foundation
+    recommendations:
+      - condition: "exposed services"
+        suggest: "Firewall Service (Gateway)"
+      - condition: "microsegmentation"
+        suggest: "Firewall Service (Distributed)"
+    synonyms:
+      - "k8s"
+      - "kubernetes"
+      - "orchestrierung"
+    wiki:
+      - "https://wiki.internal.cloud/kubernetes"
+    lifecycle: "stable"
+    support: "Best Effort unless 24/7 SLA booked"
 
-- product: Virtual Machine
-  description: "Virtuelle Maschinen Service"
-  alias: VM, VM Instance, Virtuelle Maschine, Server, Instance, Instanz
-  dependencies:
-    - type: required
-      product: VPC Account
-    - type: required
-      product: Avvia Cloud Foundation
-      
-- product: Network Service
-  description: "Netzwerkdienste innerhalb eines VPC Account"
-  alias: Netzwerk Service, Netzwerkinfrastruktur, Netzwerk, Networking, Subnet, VLAN
-  dependencies:
-    - type: required
-      product: VPC Account
-    - type: required
-      product: Avvia Cloud Foundation
-	  
-- product: Managed Kubernetes Cluster
-  description: "Managed Kubernetes Clusters innerhalb eines VPC Account"
-  alias: Kubernetes Cluster, K8s Cluster, K8s, Kubernetes, Container Plattform
-  dependencies:
-    - type: required
-      product: VPC Account
-    - type: required
-      product: Avvia Cloud Foundation
-	  
-- product: Managed Kubernetes Worker
-  description: "Kubernetes Worker in einem Managed Kubernetes Cluster"
-  alias: Kubernetes Worker, K8s Worker, Node, K8s Node, Kubernetes Node
-  dependencies:
-    - type: required
-      product: Managed Kubernetes Cluster
-    - type: required
-      product: Virtual Machine
- 
-- product: Loadbalancer
-  description: "Loadbalancer Service"
-  alias: LB, LBs, Load Balancer
-  dependencies:
-    - type: required
-      product: VPC Account
-    - type: required
-      product: Avvia Cloud Foundation
+  - product: Object Storage (S3)
+    short: "S3-kompatibler Object Storage"
+    description: "Skalierbarer S3-kompatibler Objektspeicher für Backups, Daten und Applikationen."
+    features:
+      - "S3 API kompatibel"
+      - "Kostengünstig + unbegrenzte Skalierung"
+      - "Versionierung optional"
+    limitations:
+      - "Keine POSIX-Dateifreigabe"
+    pricing:
+      model: "usage"
+      unit_price: 0.02
+      unit: "€/GB/Monat"
+    options:
+      redundancy: ["standard", "dual-zone"]
+    dependencies:
+      - type: required
+        product: VPC Account
+    synonyms:
+      - "s3"
+      - "objectstore"
+      - "backup storage"
+    wiki:
+      - "https://wiki.internal.cloud/object-storage"
+    lifecycle: "stable"
+    support: "24/7 optional"
 
-- product: VPN-Tunnel
-  description: "VPN Tunnel"
-  alias: VPN Tunnel, VPN, S2S, Site-to-Site VPN
-  dependencies:
-    - type: required
-      product: VPC Account
-    - type: required
-      product: Avvia Cloud Foundation
+  - product: vGPU Service
+    short: "GPU-Beschleunigung für VMs oder Container"
+    description: "Virtuelle GPU-Ressourcen für KI, ML, Rendering und HPC."
+    features:
+      - "NVIDIA A100 / L40 verfügbar"
+      - "vGPU partitioning"
+      - "Kompatibel mit VM + K8s Workers"
+    limitations:
+      - "Nur in Region eu-central"
+    pricing:
+      model: "pay-per-use"
+      unit_price: 1.50
+      unit: "€/GPU-Stunde"
+    dependencies:
+      - type: required
+        product: Virtual Machine Service
+    synonyms:
+      - "gpu"
+      - "cuda"
+      - "ml compute"
+    wiki:
+      - "https://wiki.internal.cloud/vgpu"
+    lifecycle: "beta"
+    support: "Best Effort"
+
+  - product: Network Segments
+    short: "Logisch getrennte Layer-3-Netze"
+    description: "Isolierte IP-Netzwerke innerhalb der VPC mit Routing-Unterstützung."
+    features:
+      - "IPv4 & IPv6"
+      - "Routing zwischen Segmenten optional"
+      - "Security Policies per Segment"
+    pricing:
+      model: "flat"
+      base: 5
+      unit: "€/Segment/Monat"
+    dependencies:
+      - type: required
+        product: VPC Account
+    synonyms:
+      - "netzwerk"
+      - "subnet"
+      - "segment"
+    wiki:
+      - "https://wiki.internal.cloud/network-segments"
+    lifecycle: "stable"
+    support: "Standard SLA"
+
+  - product: Firewall Service (Gateway)
+    short: "North-South Firewall am VPC Edge"
+    description: "Stateful Firewall mit NAT, VPN, TLS-Inspection und Logging."
+    features:
+      - "L7 Filtering"
+      - "WAF optional"
+      - "Site-to-Site VPN"
+    pricing:
+      model: "flat"
+      base: 49
+      unit: "€/Gateway/Monat"
+    dependencies:
+      - type: required
+        product: Network Segments
+    synonyms:
+      - "edge firewall"
+      - "gateway firewall"
+      - "north south firewall"
+    wiki:
+      - "https://wiki.internal.cloud/firewall-gw"
+    lifecycle: "stable"
+    support: "24/7 Enterprise SLA"
+
+  - product: Firewall Service (Distributed)
+    short: "East-West Mikrosegmentierungs-Firewall"
+    description: "Distributed Firewalling innerhalb der VPC für Workload-Isolation."
+    features:
+      - "Per-VM Policy"
+      - "Layer 7 App-ID"
+      - "Zero Trust ready"
+    pricing:
+      model: "per-rule"
+      unit_price: 0.005
+      unit: "€/Rule/Monat"
+    dependencies:
+      - type: required
+        product: Network Segments
+    synonyms:
+      - "dfw"
+      - "microsegmentation"
+      - "east west firewall"
+    wiki:
+      - "https://wiki.internal.cloud/firewall-dfw"
+    lifecycle: "stable"
+    support: "Best Effort"

@@ -1,0 +1,51 @@
+concepts:
+  - id: regions
+    title: "Regionen"
+    summary: "Eine Region ist ein geographisch abgegrenzter Cloud-Standort."
+    details:
+      - "Regionen sind voneinander physisch und logisch getrennt."
+      - "Daten verlassen eine Region nicht ohne explizite Replikation."
+    related_products:
+      - Virtual Machine Service
+      - Managed Kubernetes Cluster
+      - Object Storage (S3)
+    wiki:
+      - "https://wiki.internal.cloud/regions"
+
+  - id: availability_zones
+    title: "Availability Zones"
+    summary: "Mehrere unabhängige Rechenzentrumszonen innerhalb einer Region."
+    details:
+      - "Jede Zone besitzt eigene Stromversorgung & Netzwerkzugänge"
+      - "Workloads können zwischen Zonen hochverfügbar betrieben werden"
+      - "Empfohlen: Multi-Zone Deployments für kritische Systeme"
+    related_products:
+      - Virtual Machine Service
+      - Managed Kubernetes Cluster
+    wiki:
+      - "https://wiki.internal.cloud/zones"
+
+  - id: ha_levels
+    title: "High Availability Levels"
+    summary: "Definierte Redundanzklassen für Cloud-Workloads."
+    details:
+      - "Standard: Single Instance, keine garantierte Wiederherstellung"
+      - "High: Redundanz in mindestens 2 Zonen"
+      - "Ultra: + automatisches Self-Healing"
+    related_products:
+      - Virtual Machine Service
+      - Managed Kubernetes Cluster
+    wiki:
+      - "https://wiki.internal.cloud/ha"
+
+  - id: network_security_layers
+    title: "Netzwerk-Sicherheitszonen"
+    summary: "Security-Konzepte entlang North-South & East-West Traffic."
+    details:
+      - "Gateway Firewall schützt an der Grenze zur Außenwelt (North-South)"
+      - "Distributed Firewall schützt zwischen Workloads (East-West)"
+    related_products:
+      - Firewall Service (Gateway)
+      - Firewall Service (Distributed)
+    wiki:
+      - "https://wiki.internal.cloud/network-security"

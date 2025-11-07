@@ -1,0 +1,23 @@
+use_cases:
+  - intent: "Ich brauche eine virtuelle Maschine"
+    resolves_to: Virtual Machine Service
+  - intent: "Ich brauche einen Server"
+    resolves_to: Virtual Machine Service
+  - intent: "Ich möchte Kubernetes nutzen"
+    resolves_to: Managed Kubernetes Cluster
+  - intent: "Ich will Container deployen"
+    resolves_to: Managed Kubernetes Cluster
+  - intent: "Ich brauche S3 Storage"
+    resolves_to: Object Storage (S3)
+  - intent: "Ich will Dateien oder Backups speichern"
+    resolves_to: Object Storage (S3)
+  - intent: "Ich brauche GPU für AI"
+    resolves_to: vGPU Service
+  - intent: "Ich brauche Netzwerk-Isolation"
+    resolves_to: Network Segments
+  - intent: "Ich brauche Sicherheit vor Internetzugriffen"
+    resolves_to: Firewall Service (Gateway)
+  - intent: "Ich brauche Mikrosegmentierung"
+    resolves_to: Firewall Service (Distributed)
+  - intent: "Ich will ein öffentlich erreichbares System absichern"
+    resolves_to: Firewall Service (Gateway)
