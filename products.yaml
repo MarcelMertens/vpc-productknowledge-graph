@@ -1,0 +1,58 @@
+- product: VPC Account
+  description: "Basisaccount für Infrastrukturservices innerhalb der Virtual Private Cloud (VPC)"
+  dependencies: []
+  
+- product: Avvia Cloud Foundation
+  description: "Managed Service Produkt für VPC"
+  dependencies:
+    - type: required
+      product: VPC Account
+	  
+- product: Virtual Machine
+  description: "Virtuelle Maschinen Service"
+  dependencies:
+    - type: required
+      product: VPC Account
+    - type: required
+      product: Avvia Cloud Foundation
+	  
+	  
+- product: Network Service
+  description: "Netzwerkdienste innerhalb eines VPC Account"
+  dependencies:
+    - type: required
+      product: VPC Account
+    - type: required
+      product: Avvia Cloud Foundation
+	  
+- product: Managed Kubernetes Cluster
+  description: "Managed Kubernetes Clusters innerhalb eines VPC Account"
+  dependencies:
+    - type: required
+      product: VPC Account
+    - type: required
+      product: Avvia Cloud Foundation
+	  
+- product: Managed Kubernetes Worker
+  description: "Kubernetes Worker in einem Managed Kubernetes Cluster"
+  dependencies:
+    - type: required
+      product: Managed Kubernetes Cluster
+    - type: required
+      product: Virtual Machine
+ 
+- product: Loadbalancer
+  description: "Loadbalancer Service"
+  dependencies:
+    - type: required
+      product: VPC Account
+    - type: required
+      product: Avvia Cloud Foundation
+
+- product: VPN-Tunnel
+  description: "VPN Tunnel"
+  dependencies:
+    - type: required
+      product: VPC Account
+    - type: required
+      product: Avvia Cloud Foundation
